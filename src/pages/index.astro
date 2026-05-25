@@ -1,0 +1,1407 @@
+---
+import { getCollection } from "astro:content";
+
+const latestPosts = (await getCollection("blog"))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const postDateFormatter = new Intl.DateTimeFormat("zh-CN", {
+  month: "2-digit",
+  day: "2-digit",
+});
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Yunity</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="stylesheet" href="/styles/global.css" />
+    <script>
+      if ("scrollRestoration" in history) {
+        history.scrollRestoration = "manual";
+      }
+    </script>
+  </head>
+  <body class="home">
+    <main>
+      <section class="top-scene" data-avatar-stage aria-label="首页头图区域">
+        <div class="scene-shade"></div>
+        <canvas class="hero-falling-snow" data-hero-falling-snow aria-hidden="true"></canvas>
+        <div class="hero-snow-bank" data-hero-snow-bank aria-hidden="true">
+          <canvas data-hero-snow-canvas></canvas>
+        </div>
+
+        <div class="scene-grid">
+          <div class="hero-ui" data-hero-ui>
+            <header class="brand-title">
+              <h1>Yunity</h1>
+              <p>anime notes / tiny toys / dev memo</p>
+            </header>
+
+            <article class="glass-panel clock-card">
+              <p id="clock-date" data-home-date>2026 年 05 月 23 日 星期六</p>
+              <strong id="clock-time" data-home-time>21:24:56</strong>
+              <span id="clock-weather" data-home-weather>定位电波接收中...</span>
+            </article>
+
+            <article class="dialog-window" data-hero-dialog>
+              <span class="quote-mark">“</span>
+              <p>哇，你终于回来了～</p>
+              <small>这里会有积雪,用小铲子把它抚平吧!</small>
+              <span class="quote-mark end">”</span>
+            </article>
+          </div>
+
+          <div class="avatar-float" data-avatar-float aria-label="头像预留位">
+            <div class="avatar-ring">
+              <img src="/assets/home/avatar.jpg" alt="Yunity avatar" />
+            </div>
+            <div class="avatar-hat" aria-hidden="true">
+              <span></span>
+            </div>
+            <div class="snowman-speech" data-snowman-speech aria-hidden="true">诶嘿洗大锅</div>
+            <div class="avatar-poke-bubble" data-avatar-poke-bubble aria-hidden="true">
+              <img src="/assets/home/avatar-poke-ha.jpg" alt="" />
+            </div>
+          </div>
+
+          <div class="snowman-build" data-snowman-build aria-hidden="true">
+            <div class="snowman-splash snowman-splash--large"></div>
+            <div class="snowman-ball snowman-ball--large">
+              <span class="snowman-label"></span>
+            </div>
+            <div class="snowman-splash snowman-splash--middle"></div>
+            <div class="snowman-ball snowman-ball--middle">
+              <span class="snowman-label"></span>
+              <span class="snowman-button snowman-button--one"></span>
+              <span class="snowman-button snowman-button--two"></span>
+              <span class="snowman-arm snowman-arm--left" data-snowman-arm="left"></span>
+              <span class="snowman-arm snowman-arm--right" data-snowman-arm="right"></span>
+            </div>
+            <div class="snowman-splash snowman-splash--small"></div>
+            <div class="snowman-ball snowman-ball--small">
+              <span class="snowman-label"></span>
+              <span class="snowman-button snowman-button--three"></span>
+              <span class="snowman-scarf"></span>
+            </div>
+          </div>
+
+          <aside class="author-sign" data-author-sign aria-label="博客主人木牌">
+            <img class="author-sign__board" src="/assets/home/wood-sign-transparent.png" alt="" />
+            <div class="author-sign__content">
+              <span class="author-sign__eyebrow">博客主人</span>
+              <strong>钰 / YU</strong>
+              <span class="author-sign__signature">签名预留</span>
+              <div class="author-sign__links" aria-label="作者主页链接">
+                <a class="author-sign__link" href="https://github.com/" target="_blank" rel="noreferrer" aria-label="GitHub">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.1c-3.3.7-4-1.4-4-1.4-.5-1.3-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.9 1.3 1.9 1.3 1.1 1.9 2.9 1.3 3.6 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.3-3.2-.1-.3-.6-1.6.1-3.2 0 0 1-.3 3.3 1.2a11.4 11.4 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.7 1.6.2 2.9.1 3.2.8.9 1.3 1.9 1.3 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3Z" />
+                  </svg>
+                </a>
+                <a class="author-sign__link author-sign__link--bilibili" href="https://space.bilibili.com/301131682" target="_blank" rel="noreferrer" aria-label="Bilibili">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M6.2 3.1a1.1 1.1 0 0 1 1.6 0l1.9 1.9h4.6l1.9-1.9a1.1 1.1 0 0 1 1.6 1.6l-.3.3h1.1A3.4 3.4 0 0 1 22 8.4v7.7a3.4 3.4 0 0 1-3.4 3.4H5.4A3.4 3.4 0 0 1 2 16.1V8.4A3.4 3.4 0 0 1 5.4 5h1.1l-.3-.3a1.1 1.1 0 0 1 0-1.6Zm-.6 5A1.2 1.2 0 0 0 4.4 9.3v5.9a1.2 1.2 0 0 0 1.2 1.2h12.8a1.2 1.2 0 0 0 1.2-1.2V9.3a1.2 1.2 0 0 0-1.2-1.2H5.6Zm3.2 2.3c.6 0 1.1.5 1.1 1.1v.7c0 .6-.5 1.1-1.1 1.1s-1.1-.5-1.1-1.1v-.7c0-.6.5-1.1 1.1-1.1Zm6.4 0c.6 0 1.1.5 1.1 1.1v.7c0 .6-.5 1.1-1.1 1.1s-1.1-.5-1.1-1.1v-.7c0-.6.5-1.1 1.1-1.1Z" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+            <span class="author-sign__credit">design by 喝益胃/Yuimi-chaya</span>
+          </aside>
+        </div>
+      </section>
+
+      <section class="snow-walk-scene" data-snow-walk aria-label="雪地散步场景">
+          <div class="snow-walk-stage">
+            <div class="snow-walk-bg" aria-hidden="true"></div>
+            <div class="snow-walk-mist" aria-hidden="true"></div>
+            <div class="snow-walk-camp" aria-hidden="true">
+              <img
+                class="snow-walk-camp__item snow-walk-camp__item--campfire"
+                src="/assets/home/p2-campfire-cutout-v1.png"
+                alt=""
+                loading="lazy"
+              />
+              <img
+                class="snow-walk-camp__item snow-walk-camp__item--tent"
+                src="/assets/home/p2-tent-cutout-v4.png"
+                alt=""
+                loading="lazy"
+              />
+            </div>
+            <div class="snow-walk-notes" aria-label="最新文章推送">
+              {latestPosts.map((post, index) => (
+                <article class={`snow-walk-note snow-walk-note--${["one", "two", "three"][index]}`} data-walk-note style="--note-reveal: 0">
+                  <a class="snow-walk-post" href={`/blog/${post.id}/`} aria-label={`阅读 ${post.data.title}`}>
+                    <span class="snow-walk-post__index">{String(index + 1).padStart(2, "0")}</span>
+                    <span class="snow-walk-post__date">{postDateFormatter.format(post.data.pubDate)}</span>
+                    <strong>{post.data.title}</strong>
+                    <span class="snow-walk-post__desc">{post.data.description}</span>
+                    <span class="snow-walk-post__tags">
+                      {post.data.tags.slice(0, 2).map((tag) => <em>#{tag}</em>)}
+                    </span>
+                  </a>
+                </article>
+              ))}
+            </div>
+            <div class="p3-subject-scene" aria-hidden="true">
+              <div class="p3-story-word p3-story-word--left">
+                <span>Pain , Pain</span>
+                <span>Go&nbsp;&nbsp;Away!</span>
+              </div>
+              <div class="p3-story-word p3-story-word--right">
+                <span>世界是由很多</span>
+                <span>小快乐组成的</span>
+                <span>我来给你分享一点</span>
+              </div>
+              <img src="/assets/home/p3-subject-cut-isnet-anime-v4.png" alt="" loading="lazy" />
+            </div>
+            <img
+              class="snow-walk-person"
+              data-snow-walk-person
+              src="/assets/home/p2-cut-v1/p2-person-shadow-full-v5.png"
+              alt="在雪地里向前走的背影"
+              loading="lazy"
+            />
+          </div>
+      </section>
+    </main>
+
+    <script>
+      const dateEl = document.querySelector("[data-home-date]");
+      const timeEl = document.querySelector("[data-home-time]");
+      const weatherEl = document.querySelector("[data-home-weather]");
+      const locationCacheKey = "yu-blog-home-local-signal-v1";
+      const tencentMapKey = "PDHBZ-Q6QAT-W7NXN-VIUTJ-PPEUV-C5F3P";
+      const weatherCodeText = {
+        0: "晴",
+        1: "大致晴朗",
+        2: "少云",
+        3: "阴",
+        45: "雾",
+        48: "霜雾",
+        51: "毛毛雨",
+        53: "毛毛雨",
+        55: "毛毛雨",
+        61: "小雨",
+        63: "中雨",
+        65: "大雨",
+        71: "小雪",
+        73: "中雪",
+        75: "大雪",
+        80: "阵雨",
+        81: "阵雨",
+        82: "强阵雨",
+        95: "雷雨",
+        96: "雷雨夹冰雹",
+        99: "雷雨夹冰雹",
+      };
+
+      const readJsonCache = (key) => {
+        try {
+          return JSON.parse(localStorage.getItem(key) ?? "{}");
+        } catch {
+          return {};
+        }
+      };
+
+      const writeJsonCache = (key, value) => {
+        try {
+          localStorage.setItem(key, JSON.stringify(value));
+        } catch {
+          // Private browsing may block storage.
+        }
+      };
+
+      const jsonp = (url, params = {}, timeout = 7000) => {
+        const callbackName = `yuMapCallback_${Date.now()}_${Math.random().toString(16).slice(2)}`;
+        const query = new URLSearchParams({ ...params, callback: callbackName });
+        const separator = url.includes("?") ? "&" : "?";
+        const script = document.createElement("script");
+
+        return new Promise((resolve, reject) => {
+          const cleanup = () => {
+            window.clearTimeout(timer);
+            delete window[callbackName];
+            script.remove();
+          };
+          const timer = window.setTimeout(() => {
+            cleanup();
+            reject(new Error("JSONP timeout"));
+          }, timeout);
+
+          window[callbackName] = (data) => {
+            cleanup();
+            resolve(data);
+          };
+          script.onerror = () => {
+            cleanup();
+            reject(new Error("JSONP failed"));
+          };
+          script.src = `${url}${separator}${query.toString()}`;
+          document.head.appendChild(script);
+        });
+      };
+
+      const formatSignalLocation = (adInfo) => {
+        const parts = [adInfo?.province, adInfo?.city, adInfo?.district]
+          .filter(Boolean)
+          .filter((item, index, list) => list.indexOf(item) === index);
+        return parts.length ? parts.join(" ") : adInfo?.nation || "本地时区";
+      };
+
+      const getTencentIpLocation = async () => {
+        const locationData = await jsonp("https://apis.map.qq.com/ws/location/v1/ip", {
+          key: tencentMapKey,
+          output: "jsonp",
+        });
+        const result = locationData?.result;
+        const location = result?.location;
+        if (Number(locationData?.status) !== 0 || !location) {
+          throw new Error(locationData?.message || "Tencent location failed");
+        }
+
+        return {
+          place: formatSignalLocation(result.ad_info),
+          latitude: Number(location.lat),
+          longitude: Number(location.lng),
+          adcode: result.ad_info?.adcode,
+        };
+      };
+
+      const getFallbackIpLocation = async () => {
+        const response = await fetch("https://ipwho.is/?lang=zh-CN");
+        if (!response.ok) throw new Error("Fallback location failed");
+        const data = await response.json();
+        if (!data?.success) throw new Error(data?.message || "Fallback location failed");
+        return {
+          place: [data.region, data.city].filter(Boolean).join(" ") || data.country || "本地时区",
+          latitude: Number(data.latitude),
+          longitude: Number(data.longitude),
+        };
+      };
+
+      const getTimezoneLocation = () => {
+        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Asia/Shanghai";
+        const presets = {
+          "Asia/Shanghai": { place: "本地时区", latitude: 31.2304, longitude: 121.4737 },
+          "Asia/Tokyo": { place: "东京电波", latitude: 35.6762, longitude: 139.6503 },
+          "Asia/Hong_Kong": { place: "香港电波", latitude: 22.3193, longitude: 114.1694 },
+          "Asia/Taipei": { place: "台北电波", latitude: 25.033, longitude: 121.5654 },
+        };
+        return presets[timezone] ?? { place: timezone, latitude: 31.2304, longitude: 121.4737 };
+      };
+
+      const firstDefined = (...values) => values.find((value) => value !== undefined && value !== null && value !== "");
+
+      const getTencentWeather = async (location) => {
+        if (!location?.adcode) {
+          throw new Error("No Tencent adcode");
+        }
+
+        const weatherData = await jsonp("https://apis.map.qq.com/ws/weather/v1/", {
+          key: tencentMapKey,
+          adcode: location.adcode,
+          type: "now",
+          output: "jsonp",
+        });
+
+        if (Number(weatherData?.status) !== 0) {
+          throw new Error(weatherData?.message || "Tencent weather failed");
+        }
+
+        const result = weatherData?.result;
+        const now = result?.now ?? result?.realtime ?? result?.observe ?? result?.data?.now ?? {};
+        const weatherText = firstDefined(now.weather, now.text, now.condition, now.phenomena, now.weather_short);
+        const temperature = Number(firstDefined(now.temperature, now.temp, now.degree));
+        const windDirection = firstDefined(now.wind_direction, now.windDir, now.wind_direction_name);
+        const windPower = firstDefined(now.wind_power, now.windScale, now.wind_class);
+
+        if (!weatherText && !Number.isFinite(temperature)) {
+          throw new Error("Tencent weather parse failed");
+        }
+
+        const tempText = Number.isFinite(temperature) ? `${Math.round(temperature)}°C` : "温度信号微弱";
+        const windText = [windDirection, windPower].filter(Boolean).join("");
+        return `${location.place} · ${weatherText || "天气"} ${tempText}${windText ? ` · ${windText}` : ""}`;
+      };
+
+      const getOpenMeteoWeather = async (location) => {
+        if (!Number.isFinite(location.latitude) || !Number.isFinite(location.longitude)) {
+          throw new Error("No location");
+        }
+
+        const weatherUrl = new URL("https://api.open-meteo.com/v1/forecast");
+        weatherUrl.searchParams.set("latitude", String(location.latitude));
+        weatherUrl.searchParams.set("longitude", String(location.longitude));
+        weatherUrl.searchParams.set("current", "temperature_2m,weather_code,wind_speed_10m");
+        weatherUrl.searchParams.set("timezone", "auto");
+        weatherUrl.searchParams.set("forecast_days", "1");
+        const weatherResponse = await fetch(weatherUrl);
+        if (!weatherResponse.ok) throw new Error("Weather failed");
+        const weatherData = await weatherResponse.json();
+        const current = weatherData.current ?? {};
+        const temperature = Number(current.temperature_2m);
+        const windSpeed = Number(current.wind_speed_10m);
+        const weatherText = weatherCodeText[current.weather_code] ?? "天气";
+        const windText = Number.isFinite(windSpeed) ? ` · 风 ${Math.round(windSpeed)}km/h` : "";
+        return Number.isFinite(temperature)
+          ? `${location.place} · ${weatherText} ${Math.round(temperature)}°C${windText}`
+          : `${location.place} · 天气信号微弱`;
+      };
+
+      async function getIpLocation() {
+        try {
+          return await getTencentIpLocation();
+        } catch {
+          try {
+            return await getFallbackIpLocation();
+          } catch {
+            return getTimezoneLocation();
+          }
+        }
+      }
+
+      async function updateHomeWeather() {
+        if (!weatherEl) return;
+        const cached = readJsonCache(locationCacheKey);
+        if (cached.label && Date.now() - Number(cached.updatedAt ?? 0) < 1000 * 60 * 60 * 3) {
+          weatherEl.textContent = cached.label;
+          return;
+        }
+
+        weatherEl.textContent = "定位电波接收中...";
+        let location;
+        try {
+          location = await getIpLocation();
+        } catch {
+          location = getTimezoneLocation();
+        }
+
+        try {
+          let label;
+          try {
+            label = await getTencentWeather(location);
+          } catch {
+            label = await getOpenMeteoWeather(location);
+          }
+
+          weatherEl.textContent = label;
+          writeJsonCache(locationCacheKey, {
+            label,
+            place: location.place,
+            latitude: location.latitude,
+            longitude: location.longitude,
+            adcode: location.adcode,
+            updatedAt: Date.now(),
+          });
+        } catch {
+          const label = `${location.place} · 天气信号迷路中`;
+          weatherEl.textContent = label;
+          writeJsonCache(locationCacheKey, {
+            label,
+            place: location.place,
+            latitude: location.latitude,
+            longitude: location.longitude,
+            updatedAt: Date.now(),
+          });
+        }
+      }
+
+      function updateClock() {
+        const now = new Date();
+        if (dateEl) {
+          dateEl.textContent = new Intl.DateTimeFormat("zh-CN", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            weekday: "long",
+          }).format(now);
+        }
+        if (timeEl) {
+          timeEl.textContent = new Intl.DateTimeFormat("zh-CN", {
+            hour: "2-digit",
+            minute: "2-digit",
+            second: "2-digit",
+            hour12: false,
+          }).format(now);
+        }
+      }
+
+      updateClock();
+      setInterval(updateClock, 1000);
+      updateHomeWeather();
+
+      const stage = document.querySelector("[data-avatar-stage]");
+      const heroUi = document.querySelector("[data-hero-ui]");
+      const heroDialog = document.querySelector("[data-hero-dialog]");
+      const avatar = document.querySelector("[data-avatar-float]");
+      const avatarRing = avatar?.querySelector(".avatar-ring");
+      const avatarPokeBubble = document.querySelector("[data-avatar-poke-bubble]");
+      const snowmanBuild = document.querySelector("[data-snowman-build]");
+      const snowmanSpeech = document.querySelector("[data-snowman-speech]");
+      const snowmanArms = Array.from(document.querySelectorAll("[data-snowman-arm]"));
+      const authorSign = document.querySelector("[data-author-sign]");
+      const snowWalkScene = document.querySelector("[data-snow-walk]");
+      let avatarProgress = 0;
+      let avatarState = "idle";
+      let avatarSequence = "idle";
+      let avatarShiftX = 0;
+      let avatarShiftY = 0;
+      let avatarBuiltShiftX = 0;
+      let avatarBuiltShiftY = 0;
+      let avatarBuildScale = 1;
+      let buildAnchorX = 0;
+      let buildAnchorY = 0;
+      let hatOffsetX = 0;
+      let hatOffsetY = 0;
+      let isSceneSnapping = false;
+      let springTimer = 0;
+      let releaseTimer = 0;
+      let snapFrame = 0;
+      let snapTimer = 0;
+      let snapExpectedY = 0;
+      let snowmanTimers = [];
+      let snowmanBuildTimer = 0;
+      let snowmanParts = [];
+      let authorSignTimer = 0;
+      let authorSignDismissed = false;
+      let branchFrame = 0;
+      let branchLastTime = 0;
+      let draggedBranch = null;
+      let avatarPokeTimer = 0;
+      let lastAvatarPokeAt = 0;
+      let heroDialogTimer = 0;
+      const fallenBranches = new Set();
+      const branchAutoCleanupDelay = 20000;
+      const branchFadeDuration = 720;
+      const branchState = {
+        left: { detached: false, fussCount: 0, lastY: 0, lastDirection: 0 },
+        right: { detached: false, fussCount: 0, lastY: 0, lastDirection: 0 },
+      };
+
+      const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+      const easeOutBack = (value) => {
+        const c1 = 1.70158;
+        const c3 = c1 + 1;
+        return 1 + c3 * Math.pow(value - 1, 3) + c1 * Math.pow(value - 1, 2);
+      };
+      const easeInOutCubic = (value) =>
+        value < 0.5 ? 4 * value * value * value : 1 - Math.pow(-2 * value + 2, 3) / 2;
+      const easeOutCubic = (value) => 1 - Math.pow(1 - value, 3);
+
+      function showHeroDialog() {
+        if (!heroDialog || window.scrollY > 24 || isSceneSnapping) {
+          return;
+        }
+
+        heroDialog.classList.remove("is-showing");
+        void heroDialog.offsetWidth;
+        heroDialog.classList.add("is-showing");
+        clearTimeout(heroDialogTimer);
+        heroDialogTimer = window.setTimeout(() => {
+          heroDialog.classList.remove("is-showing");
+        }, 3000);
+      }
+
+      function renderAvatar() {
+        const eased = clamp(easeOutBack(avatarProgress), 0, 1.08);
+        const avatarY = 118 - eased * 68;
+        avatar.style.setProperty("--avatar-progress", eased);
+        avatar.style.setProperty("--avatar-raw-progress", avatarProgress);
+        avatar.style.setProperty("--avatar-y", `${clamp(avatarY, 46, 118)}vh`);
+        avatar.style.setProperty("--avatar-shift-x", `${avatarShiftX}px`);
+        avatar.style.setProperty("--avatar-shift-y", `${avatarShiftY}px`);
+        avatar.style.setProperty("--avatar-built-shift-x", `${avatarBuiltShiftX}px`);
+        avatar.style.setProperty("--avatar-built-shift-y", `${avatarBuiltShiftY}px`);
+        avatar.style.setProperty("--avatar-build-scale", avatarBuildScale);
+        avatar.style.setProperty("--avatar-build-anchor-x", `${buildAnchorX}px`);
+        avatar.style.setProperty("--avatar-build-anchor-y", `${buildAnchorY}px`);
+        avatar.style.setProperty("--avatar-hat-offset-x", `${hatOffsetX}px`);
+        avatar.style.setProperty("--avatar-hat-offset-y", `${hatOffsetY}px`);
+        stage.style.setProperty("--avatar-build-anchor-x", `${buildAnchorX}px`);
+        stage.style.setProperty("--avatar-build-anchor-y", `${buildAnchorY}px`);
+        heroUi.style.setProperty("--hero-fade-progress", clamp(avatarProgress * 1.15, 0, 1));
+        stage.classList.toggle("is-avatar-settled", avatarState === "settled");
+        document.body.classList.toggle("is-avatar-snowman", avatarSequence === "build" || avatarSequence === "built");
+        document.body.classList.toggle("is-avatar-snowman-built", avatarSequence === "built");
+      }
+
+      function renderSnowmanParts() {
+        if (!snowmanBuild) {
+          return;
+        }
+
+        snowmanBuild.dataset.phase = avatarSequence;
+        snowmanBuild.classList.toggle("has-large", snowmanParts.includes("large"));
+        snowmanBuild.classList.toggle("has-middle", snowmanParts.includes("middle"));
+        snowmanBuild.classList.toggle("has-small", snowmanParts.includes("small"));
+        snowmanBuild.classList.toggle("has-done", avatarSequence === "built");
+        snowmanBuild.classList.toggle("is-left-arm-detached", branchState.left.detached);
+        snowmanBuild.classList.toggle("is-right-arm-detached", branchState.right.detached);
+      }
+
+      function clearSnowmanTimers() {
+        snowmanTimers.forEach((timer) => clearTimeout(timer));
+        snowmanTimers = [];
+        clearTimeout(snowmanBuildTimer);
+        snowmanBuildTimer = 0;
+        clearTimeout(authorSignTimer);
+        authorSignTimer = 0;
+      }
+
+      function clearSnowmanBuild() {
+        clearSnowmanTimers();
+        hideAuthorSign({ instant: true });
+        resetSnowmanBranches();
+        avatarSequence = "idle";
+        avatarShiftX = 0;
+        avatarShiftY = 0;
+        avatarBuiltShiftX = 0;
+        avatarBuiltShiftY = 0;
+        avatarBuildScale = 1;
+        buildAnchorX = 0;
+        buildAnchorY = 0;
+        hatOffsetX = 0;
+        hatOffsetY = 0;
+        snowmanParts = [];
+        document.body.classList.remove("is-avatar-snowman", "is-avatar-snowman-built");
+        renderSnowmanParts();
+      }
+
+      function showAuthorSign() {
+        if (!authorSign || avatarSequence !== "built" || authorSignDismissed || window.scrollY > 12 || isSceneSnapping) {
+          return;
+        }
+
+        authorSign.classList.remove("is-falling", "is-leaving");
+        void authorSign.offsetWidth;
+        authorSign.classList.add("is-visible");
+      }
+
+      function hideAuthorSign({ instant = false, fall = false } = {}) {
+        if (!authorSign) {
+          return;
+        }
+
+        clearTimeout(authorSignTimer);
+        authorSignTimer = 0;
+
+        if (instant) {
+          authorSign.classList.remove("is-visible", "is-falling", "is-leaving");
+          return;
+        }
+
+        if (!authorSign.classList.contains("is-visible")) {
+          return;
+        }
+
+        authorSign.classList.remove("is-leaving", "is-falling");
+        authorSign.classList.add(fall ? "is-falling" : "is-leaving");
+      }
+
+      function queueAuthorSign() {
+        if (!authorSign || authorSignTimer || authorSignDismissed || avatarSequence !== "built") {
+          return;
+        }
+
+        authorSignTimer = window.setTimeout(() => {
+          authorSignTimer = 0;
+          showAuthorSign();
+        }, 220);
+      }
+
+      function resetSnowmanBranches() {
+        Object.values(branchState).forEach((state) => {
+          clearTimeout(state.settleTimer);
+          state.detached = false;
+          state.fussCount = 0;
+          state.lastY = 0;
+          state.lastDirection = 0;
+        });
+
+        snowmanArms.forEach((arm) => {
+          arm.classList.remove("is-fussing");
+          arm.style.removeProperty("--arm-wobble");
+        });
+      }
+
+      function showSnowmanSpeech() {
+        if (!snowmanSpeech) {
+          return;
+        }
+
+        snowmanSpeech.classList.remove("is-showing");
+        void snowmanSpeech.offsetWidth;
+        snowmanSpeech.classList.add("is-showing");
+      }
+
+      function showAvatarPokeBubble() {
+        if (!avatar || !avatarRing || !avatarPokeBubble || avatarSequence !== "built") {
+          return;
+        }
+
+        avatarRing.classList.remove("is-poked");
+        avatarPokeBubble.classList.remove("is-visible");
+        void avatarRing.offsetWidth;
+        avatarRing.classList.add("is-poked");
+        avatarPokeBubble.classList.add("is-visible");
+        clearTimeout(avatarPokeTimer);
+        avatarPokeTimer = window.setTimeout(() => {
+          avatarRing.classList.remove("is-poked");
+          avatarPokeBubble.classList.remove("is-visible");
+        }, 1750);
+      }
+
+      function setupAvatarPoke() {
+        if (!avatarRing) {
+          return;
+        }
+
+        avatarRing.addEventListener("dblclick", (event) => {
+          if (avatarSequence !== "built") {
+            return;
+          }
+
+          event.preventDefault();
+          event.stopPropagation();
+          const now = Date.now();
+          if (now - lastAvatarPokeAt < 420) {
+            return;
+          }
+
+          lastAvatarPokeAt = now;
+          showAvatarPokeBubble();
+        });
+      }
+
+      function ensureBranchLoop() {
+        if (branchFrame) {
+          return;
+        }
+
+        branchLastTime = performance.now();
+        branchFrame = requestAnimationFrame(tickFallenBranches);
+      }
+
+      function renderFallenBranch(body) {
+        body.el.style.left = `${body.x}px`;
+        body.el.style.top = `${body.y}px`;
+        body.el.style.setProperty("--branch-angle", `${body.angle}deg`);
+      }
+
+      function cleanupFallenBranch(body, { fade = true } = {}) {
+        if (!body || body.removing) {
+          return;
+        }
+
+        body.removing = true;
+        body.dragging = false;
+        clearTimeout(body.cleanupTimer);
+        if (draggedBranch === body) {
+          draggedBranch = null;
+        }
+        fallenBranches.delete(body);
+        body.controller?.abort();
+
+        if (!fade) {
+          body.el.remove();
+          return;
+        }
+
+        body.el.classList.remove("is-dragging");
+        body.el.classList.add("is-fading");
+        window.setTimeout(() => {
+          body.el.remove();
+        }, branchFadeDuration);
+      }
+
+      function tickFallenBranches(now) {
+        const dt = clamp((now - branchLastTime) / 16.67, 0.5, 2.2);
+        branchLastTime = now;
+        const rect = stage.getBoundingClientRect();
+
+        fallenBranches.forEach((body) => {
+          if (body.removing) {
+            return;
+          }
+
+          const halfW = Math.max(30, body.el.offsetWidth / 2);
+          const halfH = Math.max(20, body.el.offsetHeight / 2);
+          const bounds = {
+            minX: halfW,
+            maxX: rect.width - halfW,
+            minY: halfH,
+            maxY: rect.height - halfH,
+          };
+
+          if (body.dragging) {
+            const dragTilt = clamp(body.vx * 0.42, -34, 34);
+            const hangingBias = body.side === "left" ? -13 : 13;
+            body.angle += (dragTilt + hangingBias - body.angle) * 0.18;
+            body.va *= 0.84;
+          } else {
+            body.vy += 0.72 * dt;
+            body.vx *= 0.992;
+            body.va += (body.side === "left" ? -0.018 : 0.018) * dt;
+            body.va *= 0.986;
+            body.x += body.vx * dt;
+            body.y += body.vy * dt;
+            body.angle += body.va * dt;
+
+            if (body.x <= bounds.minX || body.x >= bounds.maxX) {
+              body.x = clamp(body.x, bounds.minX, bounds.maxX);
+              body.vx *= -0.68;
+              body.va += body.vx * 0.04;
+            }
+
+            if (body.y >= bounds.maxY) {
+              body.y = bounds.maxY;
+              body.vy *= -0.42;
+              body.vx *= 0.88;
+              body.va += (body.vx > 0 ? 1 : -1) * 0.52;
+              if (Math.abs(body.vy) < 0.9) {
+                body.vy = 0;
+              }
+            }
+
+            if (body.y <= bounds.minY) {
+              body.y = bounds.minY;
+              body.vy *= -0.58;
+            }
+          }
+
+          body.x = clamp(body.x, bounds.minX, bounds.maxX);
+          body.y = clamp(body.y, bounds.minY, bounds.maxY);
+          body.angle = clamp(body.angle, -58, 58);
+          renderFallenBranch(body);
+        });
+
+        branchFrame = fallenBranches.size ? requestAnimationFrame(tickFallenBranches) : 0;
+      }
+
+      function createFallenBranch(side, armRect) {
+        const stageRect = stage.getBoundingClientRect();
+        const controller = new AbortController();
+        const capsule = document.createElement("div");
+        capsule.className = `fallen-branch-capsule fallen-branch-capsule--${side}`;
+        capsule.innerHTML = '<span class="fallen-branch"></span>';
+        stage.append(capsule);
+
+        const body = {
+          el: capsule,
+          side,
+          x: armRect.left - stageRect.left + armRect.width / 2,
+          y: armRect.top - stageRect.top + armRect.height / 2,
+          vx: side === "left" ? -4.2 : 4.2,
+          vy: -2.4,
+          angle: side === "left" ? -24 : 24,
+          va: side === "left" ? -1.4 : 1.4,
+          dragging: false,
+          pointerId: 0,
+          lastClientX: 0,
+          lastClientY: 0,
+          rawX: 0,
+          rawY: 0,
+          targetX: 0,
+          targetY: 0,
+          cleanupTimer: 0,
+          controller,
+          removing: false,
+        };
+
+        const updateDragTarget = (event) => {
+          const rect = stage.getBoundingClientRect();
+          const halfW = Math.max(30, body.el.offsetWidth / 2);
+          const halfH = Math.max(20, body.el.offsetHeight / 2);
+          const rawX = event.clientX - rect.left;
+          const rawY = event.clientY - rect.top;
+          const nextX = clamp(rawX, halfW, rect.width - halfW);
+          const nextY = clamp(rawY, halfH, rect.height - halfH);
+          if (body.dragging) {
+            const rawDx = body.lastClientX ? event.clientX - body.lastClientX : 0;
+            const rawDy = body.lastClientY ? event.clientY - body.lastClientY : 0;
+            body.vx = rawDx * 0.82;
+            body.vy = rawDy * 0.82;
+            body.x = nextX;
+            body.y = nextY;
+          }
+          body.lastClientX = event.clientX;
+          body.lastClientY = event.clientY;
+          body.rawX = rawX;
+          body.rawY = rawY;
+          body.targetX = nextX;
+          body.targetY = nextY;
+          renderFallenBranch(body);
+        };
+
+        const release = (event) => {
+          if (!body.dragging || (body.pointerId && event.pointerId && body.pointerId !== event.pointerId)) {
+            return;
+          }
+
+          body.dragging = false;
+          body.pointerId = 0;
+          const rect = stage.getBoundingClientRect();
+          const halfW = Math.max(30, body.el.offsetWidth / 2);
+          const halfH = Math.max(20, body.el.offsetHeight / 2);
+          const minX = halfW;
+          const maxX = rect.width - halfW;
+          const minY = halfH;
+          const maxY = rect.height - halfH;
+          if (body.x <= minX + 1 && (body.vx < 0 || body.rawX < minX)) {
+            body.vx = Math.max(4.5, Math.abs(body.vx) * 0.82);
+          }
+          if (body.x >= maxX - 1 && (body.vx > 0 || body.rawX > maxX)) {
+            body.vx = -Math.max(4.5, Math.abs(body.vx) * 0.82);
+          }
+          if (body.y <= minY + 1 && (body.vy < 0 || body.rawY < minY)) {
+            body.vy = Math.max(4.5, Math.abs(body.vy) * 0.82);
+          }
+          if (body.y >= maxY - 1 && (body.vy > 0 || body.rawY > maxY)) {
+            body.vy = -Math.max(4.5, Math.abs(body.vy) * 0.72);
+          }
+          body.lastClientX = 0;
+          body.lastClientY = 0;
+          draggedBranch = null;
+          capsule.classList.remove("is-dragging");
+          capsule.releasePointerCapture?.(event.pointerId);
+        };
+
+        capsule.addEventListener("pointerdown", (event) => {
+          if (body.removing) {
+            return;
+          }
+
+          event.preventDefault();
+          event.stopPropagation();
+          body.dragging = true;
+          body.pointerId = event.pointerId;
+          body.lastClientX = event.clientX;
+          body.lastClientY = event.clientY;
+          draggedBranch = body;
+          updateDragTarget(event);
+          capsule.classList.add("is-dragging");
+          capsule.setPointerCapture?.(event.pointerId);
+        }, { signal: controller.signal });
+
+        capsule.addEventListener("pointermove", (event) => {
+          if (!body.dragging || body.removing) {
+            return;
+          }
+
+          event.preventDefault();
+          updateDragTarget(event);
+        }, { signal: controller.signal });
+
+        capsule.addEventListener("pointerup", release, { signal: controller.signal });
+        capsule.addEventListener("pointercancel", release, { signal: controller.signal });
+
+        window.addEventListener("pointermove", (event) => {
+          if (draggedBranch !== body || body.removing) {
+            return;
+          }
+
+          updateDragTarget(event);
+        }, { signal: controller.signal });
+
+        window.addEventListener("pointerup", release, { signal: controller.signal });
+        window.addEventListener("pointercancel", release, { signal: controller.signal });
+
+        fallenBranches.add(body);
+        renderFallenBranch(body);
+        ensureBranchLoop();
+        body.cleanupTimer = window.setTimeout(() => {
+          cleanupFallenBranch(body);
+        }, branchAutoCleanupDelay);
+      }
+
+      function detachSnowmanArm(side, arm) {
+        if (branchState[side].detached) {
+          return;
+        }
+
+        const armRect = arm.getBoundingClientRect();
+        branchState[side].detached = true;
+        arm.classList.remove("is-fussing");
+        arm.style.removeProperty("--arm-wobble");
+        renderSnowmanParts();
+        createFallenBranch(side, armRect);
+        showSnowmanSpeech();
+      }
+
+      function handleArmFuss(arm, side, clientY) {
+        const state = branchState[side];
+        if (!state || state.detached || avatarSequence !== "built") {
+          return;
+        }
+
+        if (!state.lastY) {
+          state.lastY = clientY;
+          return;
+        }
+
+        const deltaY = clientY - state.lastY;
+        arm.classList.add("is-fussing");
+        arm.style.setProperty("--arm-wobble", `${clamp(deltaY * 0.55, -20, 20)}deg`);
+        clearTimeout(state.settleTimer);
+        state.settleTimer = window.setTimeout(() => {
+          if (!state.detached) {
+            arm.classList.remove("is-fussing");
+            arm.style.removeProperty("--arm-wobble");
+          }
+        }, 120);
+
+        if (Math.abs(deltaY) < 7) {
+          return;
+        }
+
+        const direction = Math.sign(deltaY);
+        if (direction !== state.lastDirection) {
+          state.fussCount += 1;
+          state.lastDirection = direction;
+          state.lastY = clientY;
+          arm.animate(
+            [
+              { filter: "brightness(1)" },
+              { filter: "brightness(1.24)" },
+              { filter: "brightness(1)" },
+            ],
+            { duration: 120, easing: "ease-out" },
+          );
+        }
+
+        if (state.fussCount >= 10) {
+          detachSnowmanArm(side, arm);
+        }
+      }
+
+      function setupSnowmanArmFuss() {
+        snowmanArms.forEach((arm) => {
+          const side = arm.dataset.snowmanArm;
+          if (!side || !branchState[side]) {
+            return;
+          }
+
+          arm.addEventListener("pointerdown", (event) => {
+            if (avatarSequence !== "built" || branchState[side].detached) {
+              return;
+            }
+
+            event.preventDefault();
+            event.stopPropagation();
+            const state = branchState[side];
+            state.lastY = event.clientY;
+            state.lastDirection = 0;
+            arm.classList.add("is-fussing");
+            arm.setPointerCapture?.(event.pointerId);
+          });
+
+          arm.addEventListener("pointermove", (event) => {
+            const state = branchState[side];
+            if (!arm.classList.contains("is-fussing") || state.detached) {
+              return;
+            }
+
+            event.preventDefault();
+            event.stopPropagation();
+            handleArmFuss(arm, side, event.clientY);
+          });
+
+          const stopFussing = (event) => {
+            if (!arm.classList.contains("is-fussing")) {
+              return;
+            }
+
+            arm.classList.remove("is-fussing");
+            arm.style.removeProperty("--arm-wobble");
+            arm.releasePointerCapture?.(event.pointerId);
+          };
+
+          arm.addEventListener("pointerup", stopFussing);
+          arm.addEventListener("pointercancel", stopFussing);
+        });
+
+        window.addEventListener(
+          "pointermove",
+          (event) => {
+            if (avatarSequence !== "built" || event.target.closest?.(".fallen-branch-capsule")) {
+              return;
+            }
+
+            const hoveredArm = snowmanArms.find((arm) => {
+              const rect = arm.getBoundingClientRect();
+              const padX = 34;
+              const padY = 44;
+              return (
+                event.clientX >= rect.left - padX &&
+                event.clientX <= rect.right + padX &&
+                event.clientY >= rect.top - padY &&
+                event.clientY <= rect.bottom + padY
+              );
+            });
+            const side = hoveredArm?.dataset.snowmanArm;
+            if (!hoveredArm || !side) {
+              return;
+            }
+
+            handleArmFuss(hoveredArm, side, event.clientY);
+          },
+          { passive: true },
+        );
+      }
+
+      function triggerSnowmanBuild() {
+        if (avatarSequence !== "idle" || avatarState !== "settled" || window.scrollY > 10 || isSceneSnapping) {
+          return;
+        }
+
+        clearSnowmanTimers();
+        startSnowmanBuild();
+      }
+
+      function queueSnowmanBuild() {
+        if (snowmanBuildTimer || avatarSequence !== "idle" || avatarState !== "settled" || window.scrollY > 10 || isSceneSnapping) {
+          return;
+        }
+
+        snowmanBuildTimer = window.setTimeout(() => {
+          snowmanBuildTimer = 0;
+          triggerSnowmanBuild();
+        }, 180);
+      }
+
+      function springTo(target, nextState) {
+        clearInterval(springTimer);
+        springTimer = window.setInterval(() => {
+          avatarProgress += (target - avatarProgress) * 0.28;
+          if (Math.abs(target - avatarProgress) < 0.006) {
+            avatarProgress = target;
+            avatarState = nextState;
+            clearInterval(springTimer);
+            renderAvatar();
+            if (nextState === "settled" && target >= 1) {
+              queueSnowmanBuild();
+            }
+            return;
+          }
+          renderAvatar();
+        }, 16);
+      }
+
+      function resetAvatar() {
+        clearTimeout(releaseTimer);
+        clearInterval(springTimer);
+        clearSnowmanBuild();
+        avatarState = "idle";
+        springTo(0, "idle");
+      }
+
+      function isAtHeroTop() {
+        const rect = stage.getBoundingClientRect();
+        return rect.top >= -8 && rect.top <= 12;
+      }
+
+      function setAvatarSettled({ preserveSnowman = false } = {}) {
+        clearTimeout(releaseTimer);
+        clearInterval(springTimer);
+        if (!preserveSnowman) {
+          clearSnowmanBuild();
+        }
+        avatarState = "settled";
+        avatarProgress = 1;
+        renderAvatar();
+      }
+
+      function startSnowmanBuild() {
+        if (!snowmanBuild || avatarSequence !== "idle" || avatarState !== "settled" || window.scrollY > 10 || isSceneSnapping) {
+          return;
+        }
+
+        clearSnowmanTimers();
+        authorSignDismissed = false;
+        hideAuthorSign({ instant: true });
+        resetSnowmanBranches();
+        avatarSequence = "build";
+        buildAnchorX = -292;
+        buildAnchorY = -128;
+        avatarShiftX = buildAnchorX;
+        avatarShiftY = buildAnchorY - 92;
+        avatarBuiltShiftX = avatarShiftX;
+        avatarBuiltShiftY = avatarShiftY;
+        avatarBuildScale = 1;
+        hatOffsetX = 24;
+        hatOffsetY = 10;
+        snowmanParts = [];
+        renderAvatar();
+        renderSnowmanParts();
+
+        const phases = [
+          { key: "large", delay: 0 },
+          { key: "middle", delay: 120 },
+          { key: "small", delay: 240 },
+        ];
+
+        phases.forEach((phase, index) => {
+          snowmanTimers.push(window.setTimeout(() => {
+            snowmanParts = [...snowmanParts, phase.key];
+            if (phase.key === "large") {
+              avatarShiftX = buildAnchorX - 3;
+              avatarShiftY = buildAnchorY - 88;
+            } else if (phase.key === "middle") {
+              avatarShiftX = buildAnchorX + 2;
+              avatarShiftY = buildAnchorY - 92;
+            } else if (phase.key === "small") {
+              avatarShiftX = buildAnchorX;
+              avatarShiftY = buildAnchorY - 84;
+            }
+            renderSnowmanParts();
+            renderAvatar();
+            if (phase.key === "small") {
+              snowmanTimers.push(window.setTimeout(() => {
+                avatarBuiltShiftX = buildAnchorX;
+                avatarBuiltShiftY = buildAnchorY + 16;
+                avatarSequence = "built";
+                avatarBuildScale = 1.03;
+                hatOffsetX = 58;
+                hatOffsetY = 7;
+                renderAvatar();
+                renderSnowmanParts();
+                queueAuthorSign();
+              }, 230));
+            }
+          }, phase.delay + index * 20));
+        });
+      }
+
+      function smoothSnapTo(target, onDone) {
+        if (isSceneSnapping) {
+          return;
+        }
+
+        cancelAnimationFrame(snapFrame);
+        clearTimeout(snapTimer);
+        isSceneSnapping = true;
+        document.body.classList.add("is-scene-snapping");
+        const maxScroll = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
+        const destination = clamp(target, 0, maxScroll);
+        const start = window.scrollY;
+        const distance = destination - start;
+        snapExpectedY = start;
+
+        if (Math.abs(distance) < 2) {
+          window.scrollTo(0, destination);
+          isSceneSnapping = false;
+          document.body.classList.remove("is-scene-snapping");
+          snapExpectedY = destination;
+          onDone?.();
+          return;
+        }
+
+        const snapEase = distance < 0
+          ? (value) => Math.sin((value * Math.PI) / 2)
+          : easeInOutCubic;
+        const duration = clamp(Math.abs(distance) * 0.9, 620, 980);
+        const startedAt = performance.now();
+        const step = () => {
+          const now = performance.now();
+          const progress = clamp((now - startedAt) / duration, 0, 1);
+          const nextY = start + distance * snapEase(progress);
+          snapExpectedY = nextY;
+          window.scrollTo(0, nextY);
+
+          if (progress >= 1) {
+            snapExpectedY = destination;
+            window.scrollTo(0, destination);
+            isSceneSnapping = false;
+            document.body.classList.remove("is-scene-snapping");
+            snapFrame = 0;
+            snapTimer = 0;
+            onDone?.();
+            return;
+          }
+
+          snapTimer = window.setTimeout(step, 16);
+        };
+
+        step();
+      }
+
+      function snapToSnowWalk() {
+        if (!snowWalkScene) {
+          return;
+        }
+
+        authorSignDismissed = true;
+        hideAuthorSign();
+        setAvatarSettled({ preserveSnowman: true });
+        smoothSnapTo(snowWalkScene.offsetTop);
+      }
+
+      function snapToHero() {
+        if (snowWalkScene) {
+          const snowTop = snowWalkScene.offsetTop;
+          if (window.scrollY > snowTop && window.scrollY - snowTop < 160) {
+            window.scrollTo(0, snowTop);
+          }
+        }
+
+        setAvatarSettled({ preserveSnowman: avatarSequence === "built" });
+        smoothSnapTo(0, showHeroDialog);
+      }
+
+      function shouldSnapBackToHero(deltaY = 0) {
+        if (!snowWalkScene) {
+          return false;
+        }
+
+        const travel = Math.max(1, snowWalkScene.offsetHeight - window.innerHeight);
+        const sceneDistance = window.scrollY - snowWalkScene.offsetTop;
+        const projectedDistance = sceneDistance + deltaY;
+        const walkRawProgress = sceneDistance / travel;
+        const projectedRawProgress = projectedDistance / travel;
+        const leakedHeroRange = Math.min(window.innerHeight * 0.72, 560);
+        const startCatchRange = Math.min(window.innerHeight * 0.34, 280);
+        const inLeakedHeroRange = sceneDistance < 0 && sceneDistance >= -leakedHeroRange;
+        const nearSceneStart = sceneDistance >= 0 && sceneDistance <= startCatchRange;
+        const walkBackAtStart = sceneDistance >= 0 && walkRawProgress <= 0.11;
+        const willCrossStart = sceneDistance > 0 && projectedRawProgress <= 0.11 && walkRawProgress <= 0.28;
+        return inLeakedHeroRange || nearSceneStart || walkBackAtStart || willCrossStart;
+      }
+
+      function isBeforeSnowWalkTop() {
+        if (!snowWalkScene) {
+          return false;
+        }
+
+        return window.scrollY < snowWalkScene.offsetTop - 8;
+      }
+
+      window.addEventListener(
+        "wheel",
+        (event) => {
+          if (isSceneSnapping) {
+            event.preventDefault();
+            return;
+          }
+
+          if (event.deltaY < 0 && shouldSnapBackToHero(event.deltaY)) {
+            event.preventDefault();
+            snapToHero();
+            return;
+          }
+
+        if (avatarState === "settled") {
+          if (event.deltaY > 0 && isBeforeSnowWalkTop()) {
+            event.preventDefault();
+            if (avatarSequence === "idle" && window.scrollY <= 10) {
+              triggerSnowmanBuild();
+              return;
+            }
+
+            if (avatarSequence === "build") {
+              return;
+            }
+
+            if (avatarSequence === "built") {
+              snapToSnowWalk();
+              return;
+            }
+
+            snapToSnowWalk();
+            return;
+          }
+
+            if (event.deltaY < 0 && window.scrollY <= 2) {
+              event.preventDefault();
+              resetAvatar();
+            }
+            return;
+          }
+
+          if (!isAtHeroTop()) {
+            return;
+          }
+
+          if (event.deltaY <= 0 && avatarProgress <= 0.02) {
+            return;
+          }
+
+          event.preventDefault();
+          clearInterval(springTimer);
+          avatarState = "pulling";
+          avatarProgress = clamp(avatarProgress + event.deltaY / 780, 0, 1);
+
+          if (avatarProgress >= 0.98) {
+            avatarProgress = 1;
+            avatarState = "settled";
+          }
+
+          renderAvatar();
+          if (avatarState === "settled") {
+            queueSnowmanBuild();
+          }
+          clearTimeout(releaseTimer);
+          releaseTimer = window.setTimeout(() => {
+            if (avatarState === "pulling") {
+              springTo(avatarProgress >= 0.62 ? 1 : 0, avatarProgress >= 0.62 ? "settled" : "idle");
+            }
+          }, 140);
+        },
+        { passive: false, capture: true },
+      );
+
+      window.addEventListener(
+        "scroll",
+        () => {
+          if (!isSceneSnapping) {
+            return;
+          }
+
+          if (Math.abs(window.scrollY - snapExpectedY) > 10) {
+            window.scrollTo(0, snapExpectedY);
+          }
+        },
+        { passive: true },
+      );
+
+      window.addEventListener("pagehide", () => {
+        clearTimeout(snapTimer);
+        cancelAnimationFrame(snapFrame);
+        document.body.classList.remove("is-scene-snapping");
+      });
+
+      window.addEventListener("hero-snow-stage-retreat", () => {
+        if (avatarSequence !== "built" || authorSignDismissed) {
+          return;
+        }
+
+        authorSignDismissed = true;
+        hideAuthorSign({ fall: true });
+      });
+
+      if (window.scrollY > 4) {
+        setAvatarSettled();
+      }
+
+      renderAvatar();
+      renderSnowmanParts();
+      setupSnowmanArmFuss();
+      setupAvatarPoke();
+      window.setTimeout(showHeroDialog, 420);
+    </script>
+    <script src="/scripts/capsule-nav.js" defer></script>
+    <script src="/scripts/hero-falling-snow.js" defer></script>
+    <script src="/scripts/hero-snow-bank.js" defer></script>
+    <script src="/scripts/snow-walk.js" defer></script>
+    <script src="/scripts/ambient-snow.js" defer></script>
+    <script src="/scripts/snowman-scrollbar.js" defer></script>
+    <script src="/scripts/context-menu.js" defer></script>
+  </body>
+</html>

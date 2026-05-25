@@ -1,0 +1,65 @@
+---
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("blog")).filter((post) => !post.data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await render(post);
+const formatter = new Intl.DateTimeFormat("zh-CN", {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+});
+const visibleHeadings = headings.filter((heading) => heading.depth >= 2 && heading.depth <= 3);
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>{post.data.title} | Yunity</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="stylesheet" href="/styles/global.css" />
+  </head>
+  <body>
+    <main class="article-shell" data-pagefind-body>
+      <article class="article-paper">
+        <a class="back-link" href="/blog/">← 回到手札</a>
+        <header class="article-header">
+          <p class="page-kicker">{post.data.mood ?? "Snow Note"}</p>
+          <h1>{post.data.title}</h1>
+          <p>{post.data.description}</p>
+          <div class="article-meta">
+            <time datetime={post.data.pubDate.toISOString()}>{formatter.format(post.data.pubDate)}</time>
+            {post.data.tags.map((tag) => <span>#{tag}</span>)}
+          </div>
+        </header>
+        <div class="article-body">
+          <Content />
+        </div>
+      </article>
+
+      {visibleHeadings.length > 0 && (
+        <aside class="article-toc" aria-label="文章目录">
+          <strong>雪痕目录</strong>
+          {visibleHeadings.map((heading) => (
+            <a class={`toc-depth-${heading.depth}`} href={`#${heading.slug}`}>{heading.text}</a>
+          ))}
+        </aside>
+      )}
+    </main>
+    <script src="/scripts/capsule-nav.js" defer></script>
+    <script src="/scripts/ambient-snow.js" defer></script>
+    <script src="/scripts/snowman-scrollbar.js" defer></script>
+    <script src="/scripts/context-menu.js" defer></script>
+  </body>
+</html>

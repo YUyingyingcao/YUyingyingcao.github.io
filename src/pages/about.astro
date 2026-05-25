@@ -1,0 +1,128 @@
+---
+const fragments = [
+  ["正在练习", "Blender。把脑子里的小场景慢慢捏出来，灯光、材质和镜头都还在升级中。"],
+  ["常驻游戏", "卡拉彼丘和异环。一个适合开黑，一个适合把城市和角色慢慢逛熟。"],
+  ["喜欢的调性", "冬日、清爽、二次元、可爱但不吵。页面也想保持这种舒服的呼吸。"],
+];
+
+const tools = [
+  { name: "Blender", type: "3D / 建模", icon: "/assets/about/blender-logo.svg", kind: "software" },
+  { name: "卡拉彼丘", type: "游戏 / 射击", icon: "/assets/about/strinova-icon.webp", kind: "game" },
+  { name: "异环", type: "游戏 / 都市幻想", icon: "/assets/about/ananta-icon.webp", kind: "game" },
+];
+
+const animeCards = [
+  {
+    title: "孤独摇滚！",
+    subtitle: "BOCCHI THE ROCK!",
+    text: "喜欢结束バンド那种有点笨拙、但认真发光的感觉。",
+    image: "/assets/about/bocchi-the-rock-poster.jpg",
+    tone: "bocchi",
+  },
+  {
+    title: "超时空辉夜姬",
+    subtitle: "Cosmic Princess Kaguya!",
+    text: "月亮、音乐和虚拟世界，把古老传说唱成很亮的梦。",
+    image: "/assets/about/cosmic-princess-kaguya-poster.jpg",
+    tone: "kaguya",
+  },
+];
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>About | Yunity</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="stylesheet" href="/styles/global.css" />
+  </head>
+  <body>
+    <main class="page-shell about-page" data-pagefind-body>
+      <section class="about-board">
+        <a class="back-link" href="/">← 回到初雪</a>
+        <div class="about-avatar">
+          <img src="/assets/home/avatar.jpg" alt="Yunity avatar" />
+        </div>
+        <p class="page-kicker">About This Room</p>
+        <h1>关于这个人</h1>
+        <p>在学 Blender，也会钻进游戏和番剧里充电。这里像一张安静的房间地图，先收下他最近喜欢的东西。</p>
+      </section>
+
+      <section class="about-room" aria-label="兴趣房间">
+        <div class="about-room__copy">
+          <span class="about-room__mark" aria-hidden="true"></span>
+          <p class="about-room__label">Room Notes</p>
+          <h2>最近在慢慢收集的小快乐</h2>
+          <p>
+            这页不需要像资料表一样把每件事分格摆满。更像桌面上摊开的几张便签：
+            有正在练习的软件，也有最近常回去玩的游戏和喜欢的番剧。
+          </p>
+          <div class="about-note-list">
+            {fragments.map(([title, text]) => (
+              <article>
+                <h3>{title}</h3>
+                <p>{text}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <aside class="about-tool-tray" aria-label="游戏和软件">
+          <span>游戏 / 软件</span>
+          <div class="about-tool-list">
+            {tools.map((tool) => (
+              <article>
+                <span class={`about-tool-icon about-tool-icon--${tool.kind}`} aria-hidden="true">
+                  <img src={tool.icon} alt="" loading="lazy" />
+                </span>
+                <div>
+                  <small>{tool.type}</small>
+                  <strong>{tool.name}</strong>
+                </div>
+              </article>
+            ))}
+          </div>
+        </aside>
+      </section>
+
+      <section class="anime-shelf" aria-label="喜欢的番剧">
+        <div class="anime-shelf__intro">
+          <span>番剧收藏格</span>
+          <p>比起继续切成小格子，这里就像把两张喜欢的封面靠在雪白书架上。</p>
+        </div>
+        <div class="anime-grid">
+          {animeCards.map((anime) => (
+            <article class={`anime-card anime-card--${anime.tone}`}>
+              <div class="anime-poster">
+                <img src={anime.image} alt={`${anime.title} 海报`} loading="lazy" />
+              </div>
+              <div class="anime-card__body">
+                <small>{anime.subtitle}</small>
+                <h2>{anime.title}</h2>
+                <p>{anime.text}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="contact-strip">
+        <div>
+          <span>还在慢慢补全</span>
+          <p>联系方式、社交主页和更多作品以后再接进来。现在先把兴趣和近况放好。</p>
+        </div>
+        <a class="profile-button profile-button--bilibili" href="https://space.bilibili.com/301131682" target="_blank" rel="noreferrer">
+          Bilibili 主页
+        </a>
+      </section>
+    </main>
+    <script src="/scripts/capsule-nav.js" defer></script>
+    <script src="/scripts/ambient-snow.js" defer></script>
+    <script src="/scripts/snowman-scrollbar.js" defer></script>
+    <script src="/scripts/context-menu.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+{
+  "name": "yu-blog",
+  "version": "1.0.0",
+  "description": "Personal blog built with Astro.",
+  "scripts": {
+    "dev": "set ASTRO_TELEMETRY_DISABLED=1&& set ASTRO_DEV_TOOLBAR=false&& astro dev --host 127.0.0.1 --port 4324",
+    "start": "set ASTRO_TELEMETRY_DISABLED=1&& set ASTRO_DEV_TOOLBAR=false&& astro dev --host 127.0.0.1 --port 4324",
+    "build": "set ASTRO_TELEMETRY_DISABLED=1&& astro build && pagefind --site dist",
+    "preview": "set ASTRO_TELEMETRY_DISABLED=1&& astro preview",
+    "astro": "astro"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.2",
+    "@fontsource/fredoka": "^5.2.10",
+    "@fontsource/zcool-kuaile": "^5.2.8",
+    "astro": "^6.3.6",
+    "astro-expressive-code": "^0.42.0",
+    "astro-icon": "^1.1.5",
+    "pagefind": "^1.5.2",
+    "rehype-autolink-headings": "^7.1.0",
+    "rehype-slug": "^6.0.0",
+    "remark-gfm": "^4.0.1"
+  }
+}

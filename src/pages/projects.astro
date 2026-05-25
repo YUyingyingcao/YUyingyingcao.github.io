@@ -1,0 +1,113 @@
+---
+const shelves = [
+  {
+    title: "练习进度",
+    label: "Blender / Skills",
+    text: "适合放阶段截图、建模练习、小场景复盘。不需要等到完整作品，过程本身也可以被收好。",
+    status: "可持续更新",
+    items: ["模型小物", "材质灯光", "场景截图"],
+    accent: "snow",
+  },
+  {
+    title: "游戏手账",
+    label: "Game Notes",
+    text: "卡拉彼丘和异环可以拆成角色记录、截图收藏、游玩感想，和 Blog 的长文章互相补位。",
+    status: "等内容入住",
+    items: ["角色偏好", "截图墙", "版本记录"],
+    accent: "aqua",
+  },
+  {
+    title: "番剧夹页",
+    label: "Anime Shelf",
+    text: "About 只说喜欢什么；这里可以慢慢扩展成补番清单、台词摘录、封面收藏和短评。",
+    status: "轻量收藏",
+    items: ["补番清单", "短评便签", "封面归档"],
+    accent: "pink",
+  },
+  {
+    title: "站点机关",
+    label: "Web Toys",
+    text: "雪人、木牌、滚动分镜、搜索和小组件都可以在这里留一个说明入口，像博客的幕后收纳盒。",
+    status: "持续打磨",
+    items: ["互动记录", "动效想法", "页面组件"],
+    accent: "blue",
+  },
+];
+
+const pins = [
+  ["01", "先放过程", "没有成品时，页面可以先承载练习和截图。"],
+  ["02", "再接链接", "以后有 B 站、GitHub、社交主页，都能自然接进来。"],
+  ["03", "最后归档", "内容多了以后再按类型拆分，不急着做死结构。"],
+];
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Works | Yunity</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <link rel="stylesheet" href="/styles/global.css" />
+  </head>
+  <body>
+    <main class="page-shell works-page" data-pagefind-body>
+      <section class="page-hero works-hero">
+        <a class="back-link" href="/">← 回到初雪</a>
+        <p class="page-kicker">Inventory Room</p>
+        <h1>灵感工房</h1>
+        <p>这里不急着伪装成作品集。它更像一个雪屋物品栏：把练习、截图、清单、链接和未来想做的小东西先分好格，等内容慢慢住进来。</p>
+      </section>
+
+      <section class="inventory-board" aria-label="内容收纳方向">
+        <div class="inventory-board__main">
+          <span class="inventory-orb" aria-hidden="true"></span>
+          <p class="page-kicker">What can live here</p>
+          <h2>比 Projects 更好填的内容入口</h2>
+          <p>
+            真实项目还不多时，最适合做成“过程型页面”：练习进度、截图、想做清单、游戏和番剧的轻记录，
+            都可以先成为可维护的小模块。
+          </p>
+        </div>
+        <div class="inventory-pins">
+          {pins.map(([mark, title, text]) => (
+            <article>
+              <span>{mark}</span>
+              <strong>{title}</strong>
+              <p>{text}</p>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section class="inventory-shelf" aria-label="灵感货架">
+        {shelves.map((item) => (
+          <article class={`inventory-card inventory-card--${item.accent}`}>
+            <div class="inventory-card__top">
+              <small>{item.label}</small>
+              <strong>{item.status}</strong>
+            </div>
+            <h2>{item.title}</h2>
+            <p>{item.text}</p>
+            <div class="inventory-tags">
+              {item.items.map((tag) => <span>{tag}</span>)}
+            </div>
+          </article>
+        ))}
+      </section>
+
+      <section class="workbench-note inventory-note">
+        <div>
+          <span>后期填充建议</span>
+          <p>等博客主人给到截图、链接或练习记录后，只要往这些模块里补内容，不需要重新设计整页结构。</p>
+        </div>
+      </section>
+    </main>
+    <script src="/scripts/capsule-nav.js" defer></script>
+    <script src="/scripts/ambient-snow.js" defer></script>
+    <script src="/scripts/snowman-scrollbar.js" defer></script>
+    <script src="/scripts/context-menu.js" defer></script>
+  </body>
+</html>
