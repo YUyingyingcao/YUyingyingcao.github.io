@@ -15,7 +15,7 @@
   nav.innerHTML = `
     <button class="capsule-nav__toggle" type="button" aria-expanded="false" aria-controls="capsule-nav-panel">
       <span class="capsule-nav__flake" aria-hidden="true">
-        <img src="/assets/ui/scrollbar-snowman-snowmanjpg-final.png" alt="" />
+        <img src="/assets/ui/scrollbar-snowman-snowmanjpg-final.webp" alt="" />
       </span>
       <span class="capsule-nav__brand">雪境入口</span>
       <span class="capsule-nav__chevron" aria-hidden="true"></span>

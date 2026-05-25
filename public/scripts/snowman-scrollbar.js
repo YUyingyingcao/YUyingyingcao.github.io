@@ -7,7 +7,7 @@
       <div class="snowman-scrollbar__fill"></div>
     </div>
     <div class="snowman-scrollbar__thumb">
-      <img src="/assets/ui/scrollbar-snowman-snowmanjpg-final.png" alt="" />
+      <img src="/assets/ui/scrollbar-snowman-snowmanjpg-final.webp" alt="" />
     </div>
   `;
 

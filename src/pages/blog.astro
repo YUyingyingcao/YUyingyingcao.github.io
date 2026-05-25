@@ -20,7 +20,7 @@ const posts = (await getCollection("blog"))
       wordCount,
       readingMinutes: Math.max(1, Math.ceil(wordCount / 420)),
       mood: post.data.mood ?? "雪日手札",
-      cover: post.data.cover ?? `/assets/blog-covers/${(index % 11) + 1}.png`,
+      cover: post.data.cover ?? `/assets/blog-covers/${(index % 11) + 1}.webp`,
     };
   });
 
